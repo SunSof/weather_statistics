@@ -35,9 +35,6 @@ gem "grape"
 # Faraday is an HTTP client library
 gem "faraday"
 
-# Shim to load environment variables from .env into ENV
-gem "dotenv"
-
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
@@ -56,6 +53,9 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[mri mswin mswin64 mingw x64_mingw]
+
+  # Shim to load environment variables from .env into ENV
+  gem "dotenv"
 end
 
 group :development do
@@ -73,6 +73,9 @@ end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
+  gem "rspec-rails"
+  gem "webmock"
+  gem "vcr"
   gem "capybara"
   gem "selenium-webdriver"
 end

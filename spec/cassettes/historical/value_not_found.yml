@@ -1,0 +1,91 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://dataservice.accuweather.com/currentconditions/v1/298198/historical/24?apikey=3nAk9BEZxKy4LGG03q6IXqcbjth56H28
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.10.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 20 Aug 2024 21:12:12 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '11921'
+      Connection:
+      - keep-alive
+      Request-Context:
+      - appId=cid-v1:0158d69b-75d9-4a19-9e5f-a14693f847e4
+      Ratelimit-Limit:
+      - '50'
+      Ratelimit-Remaining:
+      - '45'
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, PUT, POST, DELETE
+      Access-Control-Allow-Headers:
+      - origin, x-requested-with, accept
+      Access-Control-Max-Age:
+      - '3628800'
+      Vary:
+      - Accept-Encoding
+      Cache-Control:
+      - public, max-age=228
+      Expires:
+      - Tue, 20 Aug 2024 21:16:00 GMT
+      Akamai-Grn:
+      - 0.2d0cde17.1724188332.8feb333
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - deflate;q=0.6
+      - gzip;q=1.0
+      - identity;q=0.3
+      Host:
+      - api.accuweather.com
+      User-Agent:
+      - Faraday v2.10.1
+      X-Forwarded-For:
+      - 109.245.197.226
+      X-Forwarded-Port:
+      - '80'
+      X-Forwarded-Proto:
+      - http
+    body:
+      encoding: UTF-8
+      string: '[{"EpochTime":1724187720,"WeatherText":"Mostly
+        clear","WeatherIcon":34,"HasPrecipitation":false,"PrecipitationType":null,"IsDayTime":false,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724183880,"WeatherText":"Mostly
+        clear","WeatherIcon":34,"HasPrecipitation":false,"PrecipitationType":null,"IsDayTime":false,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724180520,"WeatherText":"Mostly
+        clear","WeatherIcon":34,"HasPrecipitation":false,"PrecipitationType":null,"IsDayTime":false,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724176680,"WeatherText":"Partly
+        cloudy","WeatherIcon":35,"HasPrecipitation":false,"PrecipitationType":null,"IsDayTime":false,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724173080,"WeatherText":"Mostly
+        sunny","WeatherIcon":2,"HasPrecipitation":false,"PrecipitationType":null,"IsDayTime":true,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724169720,"WeatherText":"Sunny","WeatherIcon":1,"HasPrecipitation":false,"PrecipitationType":null,"IsDayTime":true,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724166120,"WeatherText":"Sunny","WeatherIcon":1,"HasPrecipitation":false,"PrecipitationType":null,"IsDayTime":true,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724162280,"WeatherText":"Sunny","WeatherIcon":1,"HasPrecipitation":false,"PrecipitationType":null,"IsDayTime":true,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724158920,"WeatherText":"Mostly
+        cloudy","WeatherIcon":6,"HasPrecipitation":false,"PrecipitationType":null,"IsDayTime":true,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724155020,"WeatherText":"Mostly
+        cloudy","WeatherIcon":6,"HasPrecipitation":false,"PrecipitationType":null,"IsDayTime":true,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724151720,"WeatherText":"Light
+        rain","WeatherIcon":12,"HasPrecipitation":true,"PrecipitationType":"Rain","IsDayTime":true,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724148120,"WeatherText":"Light
+        rain","WeatherIcon":12,"HasPrecipitation":true,"PrecipitationType":"Rain","IsDayTime":true,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724144520,"WeatherText":"Light
+        rain","WeatherIcon":12,"HasPrecipitation":true,"PrecipitationType":"Rain","IsDayTime":true,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724140920,"WeatherText":"Light
+        rain","WeatherIcon":12,"HasPrecipitation":true,"PrecipitationType":"Rain","IsDayTime":true,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724137320,"WeatherText":"Light
+        rain","WeatherIcon":12,"HasPrecipitation":true,"PrecipitationType":"Rain","IsDayTime":true,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724133720,"WeatherText":"Light
+        rain","WeatherIcon":12,"HasPrecipitation":true,"PrecipitationType":"Rain","IsDayTime":true,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724130120,"WeatherText":"Rain","WeatherIcon":18,"HasPrecipitation":true,"PrecipitationType":"Rain","IsDayTime":true,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724126220,"WeatherText":"Rain","WeatherIcon":18,"HasPrecipitation":true,"PrecipitationType":"Rain","IsDayTime":true,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724122860,"WeatherText":"Cloudy","WeatherIcon":7,"HasPrecipitation":false,"PrecipitationType":null,"IsDayTime":false,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724119320,"WeatherText":"Light
+        rain","WeatherIcon":12,"HasPrecipitation":true,"PrecipitationType":"Rain","IsDayTime":false,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724115720,"WeatherText":"Cloudy","WeatherIcon":7,"HasPrecipitation":false,"PrecipitationType":null,"IsDayTime":false,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724112120,"WeatherText":"Rain","WeatherIcon":18,"HasPrecipitation":true,"PrecipitationType":"Rain","IsDayTime":false,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724108520,"WeatherText":"Light
+        rain","WeatherIcon":12,"HasPrecipitation":true,"PrecipitationType":"Rain","IsDayTime":false,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"},{"EpochTime":1724104920,"WeatherText":"Partly
+        cloudy","WeatherIcon":35,"HasPrecipitation":false,"PrecipitationType":null,"IsDayTime":false,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"}]'
+  recorded_at: Tue, 20 Aug 2024 21:12:12 GMT
+recorded_with: VCR 6.3.1
