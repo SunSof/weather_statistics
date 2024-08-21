@@ -15,10 +15,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_20_200821) do
   enable_extension "plpgsql"
 
   create_table "weather_data", force: :cascade do |t|
-    t.datetime "recorded_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "recorded_at", precision: nil, null: false
     t.float "temperature", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
 end
