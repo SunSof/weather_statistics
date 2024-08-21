@@ -78,4 +78,5 @@ group :test do
   gem "vcr"
   gem "capybara"
   gem "selenium-webdriver"
+  gem "factory_bot_rails"
 end
