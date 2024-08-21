@@ -70,7 +70,7 @@ http_interactions:
       - http
     body:
       encoding: UTF-8
-      string: '[{"LocalObservationDateTime":"2024-08-20T20:57:00+02:00","EpochTime":1724180220,"WeatherText":"Mostly
+      string: '[{"EpochTime":1724180220,"WeatherText":"Mostly
         clear","WeatherIcon":34,"HasPrecipitation":false,"PrecipitationType":null,"IsDayTime":false,"Temperature":{},"MobileLink":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us","Link":"http://www.accuweather.com/en/rs/belgrade/298198/current-weather/298198?lang=en-us"}]'
   recorded_at: Tue, 20 Aug 2024 19:13:22 GMT
 recorded_with: VCR 6.3.1
