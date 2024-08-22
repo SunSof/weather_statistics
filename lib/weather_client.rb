@@ -36,8 +36,7 @@ class WeatherClient
       datetime = value.dig("LocalObservationDateTime")
       temperature = value.dig("Temperature", "Metric", "Value")
       raise WeatherClientError.new("Value not found", 500) unless datetime || temperature
-      time = Time.parse(datetime).strftime("%H:%M")
-      {time: time, temperature: "#{temperature}°C"}
+      {time: datetime, temperature: "#{temperature}°C"}
     end
   end
 

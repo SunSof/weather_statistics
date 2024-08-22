@@ -24,15 +24,35 @@ class WeatherApi < Grape::API
       end
     end
 
+    desc "Get historical weather data for the last 24 hours"
     get :historical do
-      weather = WeatherData.where(recorded_at: DateTime.now - 24.hour...DateTime.now)
-      p weather
-      # if weather.nil?
-      #   weather = WeatherClient.new
-      #   current_temperature = weather.historical
-      #   WeatherData.create(recorded_at: current_temperature[:time], temperature: current_temperature[:temperature])
-      #   current_temperature
-      # end
+      weathers = WeatherData.for_24_hour
+      if weathers.nil?
+        weather = WeatherClient.new
+        begin
+          array_with_temperature = weather.historical
+          temperatures_to_upsert = array_with_temperature.map do |data|
+            {
+              recorded_at: DateFormatter.format_date(data[:time]),
+              temperature: data[:temperature].to_f
+            }
+          end
+          WeatherData.upsert_all(temperatures_to_upsert.uniq, unique_by: :recorded_at, returning: %w[recorded_at temperature])
+        rescue WeatherClientError => e
+          error!({error: "Internal error: #{e.message}"}, e.status)
+        rescue JSON::ParserError
+          error!({error: "Internal error"}, 500)
+        end
+      else
+        weathers.map do |weather|
+          {time: weather.recorded_at, temperature: weather.temperature}
+        end
+      end
+    end
+    desc "Get maximum temperature for the last 24 hours"
+    get "historical/max" do
+      weather = WeatherClient.new
+      weather.max
     end
   end
 end

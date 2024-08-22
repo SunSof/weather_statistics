@@ -40,7 +40,7 @@ RSpec.describe WeatherClient, type: :request do
       it "returns true if status 200 and results match" do
         VCR.use_cassette "historical/response_200" do
           client = WeatherClient.new
-          expect(client.historical[0].values).to eq ["23:02", "23.0°C"]
+          expect(client.historical[0].values).to eq ["2024-08-20T23:02:00+02:00", "23.0°C"]
         end
       end
       it "returns error if values not found" do
@@ -74,7 +74,7 @@ RSpec.describe WeatherClient, type: :request do
     end
     describe "#min" do
       it "returns error if values not found" do
-        VCR.use_cassette "max_min_avg/response_200" do
+        VCR.use_cassette "max_min/response_200" do
           client = WeatherClient.new
           expect(client.min).to eq 19.8
         end
