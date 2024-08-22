@@ -49,10 +49,62 @@ class WeatherApi < Grape::API
         end
       end
     end
+
     desc "Get maximum temperature for the last 24 hours"
     get "historical/max" do
-      weather = WeatherClient.new
-      weather.max
+      weathers = WeatherData.for_24_hour
+      if weathers.nil?
+        begin
+          weather = WeatherClient.new
+          weather.max
+        rescue WeatherClientError => e
+          error!({error: "Internal error: #{e.message}"}, e.status)
+        rescue JSON::ParserError
+          error!({error: "Internal error"}, 500)
+        end
+      else
+        weathers.map { |data| data[:temperature] }.max
+      end
+    end
+
+    desc "Get minimum temperature for the last 24 hours"
+    get "historical/min" do
+      weathers = WeatherData.for_24_hour
+      if weathers.nil?
+        begin
+          weather = WeatherClient.new
+          weather.min
+        rescue WeatherClientError => e
+          error!({error: "Internal error: #{e.message}"}, e.status)
+        rescue JSON::ParserError
+          error!({error: "Internal error"}, 500)
+        end
+      else
+        weathers.map { |data| data[:temperature] }.min
+      end
+    end
+
+    desc "Get average temperature for the last 24 hours"
+    get "historical/avg" do
+      weathers = WeatherData.for_24_hour
+      if weathers.nil?
+        weather = WeatherClient.new
+        begin
+          array_with_temperature = weather.historical
+          temperatures = array_with_temperature.map do |data|
+            {
+              temperature: data[:temperature].to_f
+            }
+          end
+          (temperatures.inject(0.0) { |sum, el| sum + el[:temperature] } / temperatures.count).round(1)
+        rescue WeatherClientError => e
+          error!({error: "Internal error: #{e.message}"}, e.status)
+        rescue JSON::ParserError
+          error!({error: "Internal error"}, 500)
+        end
+      else
+        (weathers.inject(0.0) { |sum, el| sum + el[:temperature] } / weathers.count).round(1)
+      end
     end
   end
 end
