@@ -30,4 +30,16 @@ RSpec.describe WeatherData, type: :model do
       end
     end
   end
+
+  describe "::closest_by_time" do
+    it "returns nil if corect value doesn't exist" do
+      expect(WeatherData.closest_by_time(1692690915)).to be_nil
+    end
+
+    it "returns a value if a value exist" do
+      create(:weather_data, recorded_at: Time.at(1692691910.to_i).utc, temperature: 25.0)
+
+      expect(WeatherData.closest_by_time(1692690915)[:temperature]).to eq 25.0
+    end
+  end
 end

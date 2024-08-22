@@ -106,5 +106,20 @@ class WeatherApi < Grape::API
         (weathers.inject(0.0) { |sum, el| sum + el[:temperature] } / weathers.count).round(1)
       end
     end
+
+    desc "Get temerature close to time"
+    params do
+      requires :timestamp, type: Integer
+    end
+
+    get :by_time do
+      closest_by_time = WeatherData.closest_by_time(params[:timestamp])
+
+      if closest_by_time.nil?
+        error!({error: "A temperature by close time not found"}, 404)
+      else
+        {temperature: closest_by_time[:temperature]}
+      end
+    end
   end
 end
