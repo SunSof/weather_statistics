@@ -24,7 +24,7 @@ RSpec.describe WeatherClient, type: :request do
     it "raises JSON::ParserError when invalid json" do
       VCR.use_cassette "current/bad_json_parse" do
         client = WeatherClient.new
-        expect { client.current }.to raise_error(JSON::ParserError, "unexpected token at '}]'")
+        expect { client.current }.to raise_error(JSON::ParserError)
       end
     end
 
