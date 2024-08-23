@@ -29,7 +29,7 @@ RSpec.describe WeatherData, type: :model do
 
   describe "::closest_by_time" do
     it "returns nil if there is no closest record for the passed day" do
-      iso_str = "2024-08-23T13:54:29+00:00"
+      iso_str = "2024-08-23T13:00:00+00:00"
       date = Time.parse(iso_str)
       create(:weather_data, recorded_at: date - 1.day)
 
@@ -37,7 +37,7 @@ RSpec.describe WeatherData, type: :model do
     end
 
     it "returns a value if a value exist" do
-      iso_str = "2024-08-23T13:54:29+00:00"
+      iso_str = "2024-08-23T13:00:00+00:00"
       date = Time.parse(iso_str)
       create(:weather_data, recorded_at: date - 2.hours)
       bingo = create(:weather_data, recorded_at: date + 1.hour)

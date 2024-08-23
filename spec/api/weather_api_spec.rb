@@ -252,7 +252,7 @@ describe WeatherApi do
 
     context "when closest weather data exists" do
       it "returns the closest temperature" do
-        iso_str = "2024-08-22T13:54:29+00:00"
+        iso_str = "2024-08-22T13:00:00+00:00"
         date = Time.parse(iso_str)
         timestamp = date.to_i
         create(:weather_data, recorded_at: date - 2.hours)
@@ -267,7 +267,7 @@ describe WeatherApi do
 
     context "when closest temperature not found" do
       it "returns 404 error" do
-        iso_str = "2024-08-22T13:54:29+00:00"
+        iso_str = "2024-08-22T13:00:00+00:00"
         date = Time.parse(iso_str)
         timestamp = date.to_i
         create(:weather_data, recorded_at: date - 1.day)
