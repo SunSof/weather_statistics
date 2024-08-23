@@ -129,7 +129,7 @@ class WeatherApi < Grape::API
     end
   end
 
-  desc "Get current weather"
+  desc "Application health"
   get :health do
     "OK"
   end
