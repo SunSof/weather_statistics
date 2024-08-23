@@ -279,4 +279,13 @@ describe WeatherApi do
       end
     end
   end
+
+  describe "GET /health" do
+    it "returns OK" do
+      get "/api/health"
+
+      expect(response.status).to eq(200)
+      expect(response.body).to eq("\"OK\"")
+    end
+  end
 end
