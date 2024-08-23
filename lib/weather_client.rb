@@ -12,16 +12,6 @@ class WeatherClient
       params: {apikey: ENV["ACCUWEATHER_API_KEY"]})
   end
 
-  def request(path, details = false)
-    response = @conn.get(path, details)
-    case response.status
-    when 200
-      JSON.parse(response.body)
-    when 400...600
-      raise WeatherClientError.new("Can't get weather info", response.status)
-    end
-  end
-
   def current
     response = request("#{LOCATION_KEY}")
     datetime = response.dig(0, "LocalObservationDateTime")
@@ -52,5 +42,17 @@ class WeatherClient
     data = response.dig(0, "TemperatureSummary", "Past24HourRange", "Minimum", "Metric", "Value")
     raise WeatherClientError.new("Value not found", 500) unless data
     data
+  end
+
+  private
+
+  def request(path, details = false)
+    response = @conn.get(path, details)
+    case response.status
+    when 200
+      JSON.parse(response.body)
+    when 400...600
+      raise WeatherClientError.new("Can't get weather info", response.status)
+    end
   end
 end

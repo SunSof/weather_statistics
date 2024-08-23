@@ -31,12 +31,12 @@ describe WeatherApi do
       it "returns an error response" do
         weather_client = instance_double(WeatherClient, current: {temperature: 25, time: Time.now.to_s})
         allow(WeatherClient).to receive(:new).and_return(weather_client)
-        allow(weather_client).to receive(:current).and_raise(WeatherClientError.new("Internal error", 500))
+        allow(weather_client).to receive(:current).and_raise(WeatherClientError.new("client error", 500))
 
         get "/api/weather/current"
 
         expect(response.status).to eq 500
-        expect(JSON.parse(response.body)).to eq({"error" => "Internal error: Internal error"})
+        expect(JSON.parse(response.body)).to eq({"error" => "Internal error: client error"})
       end
     end
   end
@@ -89,12 +89,12 @@ describe WeatherApi do
       it "returns an error response" do
         weather_client = instance_double(WeatherClient, historical: {temperature: 25, time: Time.now.to_s})
         allow(WeatherClient).to receive(:new).and_return(weather_client)
-        allow(weather_client).to receive(:historical).and_raise(WeatherClientError.new("Internal error", 500))
+        allow(weather_client).to receive(:historical).and_raise(WeatherClientError.new("client error", 500))
 
         get "/api/weather/historical"
 
         expect(response.status).to eq 500
-        expect(JSON.parse(response.body)).to eq({"error" => "Internal error: Internal error"})
+        expect(JSON.parse(response.body)).to eq({"error" => "Internal error: client error"})
       end
     end
   end
@@ -109,7 +109,8 @@ describe WeatherApi do
           create(:weather_data, recorded_at: time, temperature: temperature)
         end
       end
-      it "returns max temerature for 24 hours" do
+
+      it "returns max temperature for 24 hours" do
         get "/api/weather/historical/max"
 
         expect(response.status).to eq 200
@@ -118,7 +119,7 @@ describe WeatherApi do
     end
 
     context "when weather data does not exist" do
-      it "creates request" do
+      it "makes request" do
         weather_client = instance_double(WeatherClient, max: {temperature: 25.0})
         allow(WeatherClient).to receive(:new).and_return(weather_client)
         get "/api/weather/historical/max"
@@ -132,12 +133,12 @@ describe WeatherApi do
       it "returns an error response" do
         weather_client = instance_double(WeatherClient, max: {temperature: 25.0})
         allow(WeatherClient).to receive(:new).and_return(weather_client)
-        allow(weather_client).to receive(:max).and_raise(WeatherClientError.new("Internal error", 500))
+        allow(weather_client).to receive(:max).and_raise(WeatherClientError.new("client error", 500))
 
         get "/api/weather/historical/max"
 
         expect(response.status).to eq 500
-        expect(JSON.parse(response.body)).to eq({"error" => "Internal error: Internal error"})
+        expect(JSON.parse(response.body)).to eq({"error" => "Internal error: client error"})
       end
     end
   end
@@ -152,7 +153,8 @@ describe WeatherApi do
           create(:weather_data, recorded_at: time, temperature: temperature)
         end
       end
-      it "returns min temerature for 24 hours" do
+
+      it "returns min temperature for 24 hours" do
         get "/api/weather/historical/min"
 
         expect(response.status).to eq 200
@@ -161,7 +163,7 @@ describe WeatherApi do
     end
 
     context "when weather data does not exist" do
-      it "creates request" do
+      it "makes request" do
         weather_client = instance_double(WeatherClient, min: {temperature: 10.0})
         allow(WeatherClient).to receive(:new).and_return(weather_client)
         get "/api/weather/historical/min"
@@ -175,12 +177,12 @@ describe WeatherApi do
       it "returns an error response" do
         weather_client = instance_double(WeatherClient, min: {temperature: 10.0})
         allow(WeatherClient).to receive(:new).and_return(weather_client)
-        allow(weather_client).to receive(:min).and_raise(WeatherClientError.new("Internal error", 500))
+        allow(weather_client).to receive(:min).and_raise(WeatherClientError.new("client error", 500))
 
         get "/api/weather/historical/min"
 
         expect(response.status).to eq 500
-        expect(JSON.parse(response.body)).to eq({"error" => "Internal error: Internal error"})
+        expect(JSON.parse(response.body)).to eq({"error" => "Internal error: client error"})
       end
     end
   end
@@ -195,7 +197,8 @@ describe WeatherApi do
           create(:weather_data, recorded_at: time, temperature: temperature)
         end
       end
-      it "returns average temerature for 24 hours" do
+
+      it "returns average temperature for 24 hours" do
         get "/api/weather/historical/avg"
 
         expect(response.status).to eq 200
@@ -204,7 +207,7 @@ describe WeatherApi do
     end
 
     context "when weather data does not exist" do
-      it "creates request" do
+      it "makes request" do
         now = Time.now.utc.beginning_of_hour
         historical_data = 24.times.map do |i|
           {
@@ -233,6 +236,46 @@ describe WeatherApi do
 
         expect(response.status).to eq 500
         expect(JSON.parse(response.body)).to eq({"error" => "Internal error: Internal error"})
+      end
+    end
+  end
+
+  describe "GET /weather/by_time" do
+    context "when timestamp is invalid" do
+      it "returns error" do
+        get "/api/weather/by_time", params: {timestamp: -1}
+
+        expect(response.status).to eq 400
+        expect(JSON.parse(response.body)).to eq({"error" => "Invalid Unix timestamp"})
+      end
+    end
+
+    context "when closest weather data exists" do
+      it "returns the closest temperature" do
+        iso_str = "2024-08-22T13:54:29+00:00"
+        date = Time.parse(iso_str)
+        timestamp = date.to_i
+        create(:weather_data, recorded_at: date - 2.hours)
+        bingo = create(:weather_data, recorded_at: date + 1.hour)
+
+        get "/api/weather/by_time", params: {timestamp: timestamp}
+
+        expect(response.status).to eq 200
+        expect(JSON.parse(response.body)).to eq({"temperature" => bingo.temperature})
+      end
+    end
+
+    context "when closest temperature not found" do
+      it "returns 404 error" do
+        iso_str = "2024-08-22T13:54:29+00:00"
+        date = Time.parse(iso_str)
+        timestamp = date.to_i
+        create(:weather_data, recorded_at: date - 1.day)
+
+        get "/api/weather/by_time", params: {timestamp: timestamp}
+
+        expect(response.status).to eq(404)
+        expect(JSON.parse(response.body)).to eq({"error" => "A temperature by close time not found"})
       end
     end
   end

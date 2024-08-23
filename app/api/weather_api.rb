@@ -2,7 +2,7 @@ class WeatherApi < Grape::API
   format :json
 
   resource :weather do
-    desc "Get current weather for a location"
+    desc "Get current weather"
     get :current do
       weather = WeatherData.find_by(recorded_at: DateTime.now.utc.beginning_of_hour)
 
@@ -107,13 +107,17 @@ class WeatherApi < Grape::API
       end
     end
 
-    desc "Get temerature close to time"
+    desc "Get closest temperature by passed timestamp"
     params do
-      requires :timestamp, type: Integer
+      requires :timestamp, type: Integer, allow_blank: false
     end
-
     get :by_time do
-      closest_by_time = WeatherData.closest_by_time(params[:timestamp])
+      unless DateFormatter.valid_unix_timestamp?(params[:timestamp])
+        error!({error: "Invalid Unix timestamp"}, 400)
+      end
+
+      date = Time.at(params[:timestamp]).utc
+      closest_by_time = WeatherData.closest_by_time(date)
 
       if closest_by_time.nil?
         error!({error: "A temperature by close time not found"}, 404)

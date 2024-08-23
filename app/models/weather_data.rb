@@ -8,6 +8,14 @@ class WeatherData < ApplicationRecord
   end
 
   def self.closest_by_time(timestamp)
-    WeatherData.order(Arel.sql("ABS(EXTRACT(EPOCH FROM recorded_at) - #{timestamp})")).first
+    datetime = timestamp.utc? ? timestamp : timestamp.utc
+
+    start_of_day = datetime.beginning_of_day
+    end_of_day = datetime.end_of_day
+
+    WeatherData
+      .where(recorded_at: start_of_day..end_of_day)
+      .order(Arel.sql("ABS(EXTRACT(EPOCH FROM (recorded_at - ?)))", datetime))
+      .first
   end
 end
