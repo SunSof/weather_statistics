@@ -35,7 +35,9 @@ gem "grape"
 # Faraday is an HTTP client library
 gem "faraday"
 
+# Async jobs
 gem "delayed_job_active_record"
+gem "daemons"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -61,6 +63,7 @@ group :development, :test do
 end
 
 group :development do
+  gem "foreman"
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 
