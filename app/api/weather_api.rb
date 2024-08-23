@@ -9,10 +9,10 @@ class WeatherApi < Grape::API
       if weather.nil?
         weather = WeatherClient.new
         begin
-          current_temperature = weather.current
-          utc_time = DateFormatter.format_date(current_temperature[:time])
-          temperature = current_temperature[:temperature]
-          WeatherData.create(recorded_at: utc_time, temperature: temperature)
+          current_weather = weather.current
+          utc_time = DateFormatter.format_date(current_weather[:time])
+          temperature = current_weather[:temperature]
+          WeatherData.delay.create(recorded_at: utc_time, temperature: temperature)
           {time: utc_time, temperature: temperature}
         rescue WeatherClientError => e
           error!({error: "Internal error: #{e.message}"}, e.status)
@@ -31,13 +31,14 @@ class WeatherApi < Grape::API
         weather = WeatherClient.new
         begin
           array_with_temperature = weather.historical
-          temperatures_to_upsert = array_with_temperature.map do |data|
+          records_to_upsert = array_with_temperature.map do |data|
             {
               recorded_at: DateFormatter.format_date(data[:time]),
               temperature: data[:temperature].to_f
             }
           end
-          WeatherData.upsert_all(temperatures_to_upsert.uniq, unique_by: :recorded_at, returning: %w[recorded_at temperature])
+          WeatherData.delay.upsert_all(records_to_upsert.uniq, unique_by: :recorded_at)
+          records_to_upsert
         rescue WeatherClientError => e
           error!({error: "Internal error: #{e.message}"}, e.status)
         rescue JSON::ParserError

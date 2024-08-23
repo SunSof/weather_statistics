@@ -14,7 +14,7 @@ describe WeatherApi do
     end
 
     context "when weather data does not exist" do
-      it "creates a new weather data record" do
+      it "enqueues a job for a new weather data record" do
         now = Time.now
         weather_client = instance_double(WeatherClient, current: {temperature: 25, time: now.to_s})
         allow(WeatherClient).to receive(:new).and_return(weather_client)
@@ -23,7 +23,7 @@ describe WeatherApi do
 
         expect(response.status).to eq 200
         expect(JSON.parse(response.body)).to eq({"time" => DateFormatter.format_date(now.to_s).iso8601(3), "temperature" => 25})
-        expect(WeatherData.count).to eq 1
+        expect(Delayed::Job.count).to eq 1
       end
     end
 
@@ -63,7 +63,7 @@ describe WeatherApi do
     end
 
     context "when weather data does not exist" do
-      it "creates a new weather data records" do
+      it "enqueues a job for a new weather data records" do
         now = Time.now.utc.beginning_of_hour
         historical_data = 24.times.map do |i|
           {
@@ -78,7 +78,7 @@ describe WeatherApi do
         get "/api/weather/historical"
 
         expect(response.status).to eq 200
-        expect(WeatherData.count).to eq(24)
+        expect(Delayed::Job.count).to eq 1
 
         response_body = JSON.parse(response.body)
         expect(response_body.first).to eq({"recorded_at" => DateFormatter.format_date(historical_data[0][:time]).iso8601(3), "temperature" => historical_data[0][:temperature]})
