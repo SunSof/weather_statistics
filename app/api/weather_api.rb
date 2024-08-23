@@ -32,12 +32,13 @@ class WeatherApi < Grape::API
         begin
           array_with_temperature = weather.historical
           records_to_upsert = array_with_temperature.map do |data|
-            {
-              recorded_at: DateFormatter.format_date(data[:time]),
-              temperature: data[:temperature].to_f
-            }
-          end
-          WeatherData.delay.upsert_all(records_to_upsert.uniq, unique_by: :recorded_at)
+                                {
+                                  recorded_at: DateFormatter.format_date(data[:time]),
+                                  temperature: data[:temperature].to_f
+                                }
+                              end
+            .uniq { |hash| hash[:recorded_at] }
+          WeatherData.delay.upsert_all(records_to_upsert, unique_by: :recorded_at)
           records_to_upsert
         rescue WeatherClientError => e
           error!({error: "Internal error: #{e.message}"}, e.status)

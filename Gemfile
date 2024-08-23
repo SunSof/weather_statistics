@@ -38,6 +38,7 @@ gem "faraday"
 # Async jobs
 gem "delayed_job_active_record"
 gem "daemons"
+gem "rufus-scheduler"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
