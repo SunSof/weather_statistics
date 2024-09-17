@@ -1,4 +1,5 @@
 # Weather Statistics
+This application uses https://developer.accuweather.com/apis. Use Thunder Client to test the application.
 
 ## Requirements
 
